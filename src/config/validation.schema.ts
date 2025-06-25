@@ -3,9 +3,7 @@ import Joi from "joi";
 export const validationSchema = Joi.object({
 	// NODE_ENV must be a string, one of 'development', 'production', 'test'.
 	// If not specified, defaults to 'development'.
-	NODE_ENV: Joi.string()
-		.valid("development", "production", "test")
-		.default("development"),
+	NODE_ENV: Joi.string().valid("development", "production", "test").default("development"),
 
 	// PORT must be a number, defaults to 3000.
 	PORT: Joi.number().default(3000),
