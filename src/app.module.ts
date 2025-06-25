@@ -1,10 +1,10 @@
 import { Module } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
-
+import { ConfigModule, ConfigService } from "@nestjs/config";
+import { TypeOrmModule } from "@nestjs/typeorm";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
-
 import { configuration } from "./config/configuration";
+import { typeOrmConfig } from "./config/typeorm.config";
 import { validationSchema } from "./config/validation.schema";
 
 @Module({
@@ -14,6 +14,11 @@ import { validationSchema } from "./config/validation.schema";
 			envFilePath: ".env.local",
 			load: [configuration],
 			validationSchema,
+		}),
+		TypeOrmModule.forRootAsync({
+			imports: [ConfigModule],
+			inject: [ConfigService],
+			useFactory: typeOrmConfig,
 		}),
 	],
 	controllers: [AppController],
