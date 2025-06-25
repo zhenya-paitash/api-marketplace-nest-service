@@ -1,0 +1,56 @@
+services:
+  # Наш NestJS API
+  api:
+    build:
+      context: .
+      target: development # Указываем, какой этап из Dockerfile использовать
+    container_name: api-marketplace
+    ports:
+      - "${PORT}:${PORT}" # Пробрасываем порт из .env
+    env_file:
+      - .env
+    volumes:
+      # Синхронизируем исходный код для hot-reload
+      - .:/usr/src/app
+      # Исключаем node_modules из синхронизации, чтобы использовать те, что внутри контейнера
+      - /usr/src/app/node_modules
+    depends_on:
+      # Запускаем api только после того, как поднимутся postgres и rabbitmq
+      - postgres
+      - rabbitmq
+    networks:
+      - marketplace_net
+
+  # База данных PostgreSQL
+  postgres:
+    image: postgres:16-alpine
+    container_name: postgres-marketplace
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "${DB_PORT}:5432" # Пробрасываем порт для возможного внешнего подключения (например, через DBeaver)
+    volumes:
+      - postgres_data:/var/lib/postgresql/data # Сохраняем данные БД между перезапусками
+    networks:
+      - marketplace_net
+
+  # Брокер сообщений RabbitMQ
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq-marketplace
+    ports:
+      - "5672:5672"   # Порт для подключения приложения
+      - "15672:15672" # Порт для веб-интерфейса
+    networks:
+      - marketplace_net
+
+# Определяем сети и тома
+networks:
+  marketplace_net:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local

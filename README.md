@@ -3,12 +3,17 @@
 <div align="center">
   <a href="https://choosealicense.com/licenses/mit/"><img src="https://img.shields.io/badge/MIT-3DA638?style=for-the-badge&label=license&link=https%3A%2F%2Fchoosealicense.com%2Flicenses%2Fmit%2F"></a>
   <img src="https://img.shields.io/badge/educational-ED7D31?style=for-the-badge&label=project&link=https%3A%2F%2Fchoosealicense.com%2Flicenses%2Fmit%2F">
-  <img src="https://img.shields.io/badge/version-0.0.4-9cf?style=for-the-badge&label=version">
+  <img src="https://img.shields.io/badge/version-0.0.5-9cf?style=for-the-badge&label=version">
 </div>
 
 <br>
 
 ## Quick Start
+
+```bash
+cat .env.example > .env
+docker-compose up --build
+```
 
 ## Table of Contents
 

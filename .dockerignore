@@ -1,0 +1,27 @@
+# dependencies
+node_modules
+dist
+npm-debug.log
+
+# docker
+Dockerfile
+.dockerignore
+docker-compose.yml
+
+# environments
+.env*
+!/.env
+
+# testing
+test
+
+# misc
+.DS_Store
+.git
+.vscode
+
+# logs
+*.log
+
+# docs
+*.md
