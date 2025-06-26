@@ -1,6 +1,6 @@
 {
   "name": "api-marketplace-nest-service",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Marketplace API service",
   "author": "zhenya-paitash",
   "private": false,
@@ -29,7 +29,10 @@
     "@nestjs/swagger": "^11.2.0",
     "@nestjs/typeorm": "^11.0.0",
     "joi": "^17.13.3",
+    "nestjs-pino": "^4.4.0",
     "pg": "^8.16.2",
+    "pino-http": "^10.5.0",
+    "pino-pretty": "^13.0.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
     "typeorm": "^0.3.25"

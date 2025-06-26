@@ -19,4 +19,7 @@ export const validationSchema = Joi.object({
 	// Secret key for JWT also required.
 	JWT_SECRET: Joi.string().required(),
 	JWT_EXPIRES_IN: Joi.string().required(),
+
+	// RabbitMQ
+	RABBITMQ_URI: Joi.string().required(),
 });

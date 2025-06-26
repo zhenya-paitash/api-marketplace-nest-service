@@ -2,11 +2,18 @@ import { ConfigService } from "@nestjs/config";
 import { NestFactory } from "@nestjs/core";
 import { FastifyAdapter, NestFastifyApplication } from "@nestjs/platform-fastify";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
+import { Logger } from "nestjs-pino";
 import { AppModule } from "./app.module";
 import { AppConfig } from "./config/configuration";
 
 async function bootstrap() {
-	const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
+  // Create a temporary application without a logger to get access to it
+	const tempApp = await NestFactory.create(AppModule, { logger: false });
+	const pinoLogger = tempApp.get(Logger);
+	await tempApp.close();
+
+	const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(), { logger: pinoLogger });
+	app.useLogger(pinoLogger);
 
 	const configService = app.get<ConfigService<AppConfig, true>>(ConfigService);
 	const port = configService.get("port", { infer: true });
@@ -17,7 +24,7 @@ async function bootstrap() {
 		new DocumentBuilder()
 			.setTitle("Marketplace API")
 			.setDescription("Marketplace API documentation.")
-			.setVersion("0.0.3")
+			.setVersion("0.0.6")
 			.addTag("API")
 			.addBearerAuth()
 			.build(),
