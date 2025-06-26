@@ -4,6 +4,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { LoggerModule } from "nestjs-pino";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
+import { AuthModule } from "./auth/auth.module";
 import { configuration } from "./config/configuration";
 import { loggerConfig } from "./config/logger.config";
 import { typeOrmConfig } from "./config/typeorm.config";
@@ -14,7 +15,7 @@ import { UsersModule } from "./users/users.module";
 	imports: [
 		ConfigModule.forRoot({
 			isGlobal: true,
-			envFilePath: ".env.local",
+			envFilePath: ".env",
 			load: [configuration],
 			validationSchema,
 		}),
@@ -29,6 +30,7 @@ import { UsersModule } from "./users/users.module";
 			useFactory: loggerConfig,
 		}),
 		UsersModule,
+		AuthModule,
 	],
 	controllers: [AppController],
 	providers: [AppService],

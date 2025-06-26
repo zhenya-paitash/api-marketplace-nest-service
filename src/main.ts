@@ -1,3 +1,4 @@
+import { ValidationPipe } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { NestFactory } from "@nestjs/core";
 import { FastifyAdapter, NestFastifyApplication } from "@nestjs/platform-fastify";
@@ -13,7 +14,14 @@ async function bootstrap() {
 	await tempApp.close();
 
 	const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(), { logger: pinoLogger });
+
 	app.useLogger(pinoLogger);
+	app.useGlobalPipes(
+		new ValidationPipe({
+			whitelist: true, // auto remove fields that are not in the dto
+			transform: true, // auto transform types
+		}),
+	);
 
 	const configService = app.get<ConfigService<AppConfig, true>>(ConfigService);
 	const port = configService.get("port", { infer: true });
@@ -24,7 +32,7 @@ async function bootstrap() {
 		new DocumentBuilder()
 			.setTitle("Marketplace API")
 			.setDescription("Marketplace API documentation.")
-			.setVersion("0.0.7")
+			.setVersion("0.0.8")
 			.addTag("API")
 			.addBearerAuth()
 			.build(),

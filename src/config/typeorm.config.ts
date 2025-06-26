@@ -16,7 +16,7 @@ export const typeOrmConfig = (configService: ConfigService<AppConfig, true>): Ty
 		password: dbConfig.password,
 		database: dbConfig.database,
 		entities: [`${__dirname}/../../**/*.entity{.ts,.js}`],
-    migrations: [`${__dirname}/../../../db/migrations/*{.ts,.js}`],
+		migrations: [`${__dirname}/../../../db/migrations/*{.ts,.js}`],
 		synchronize,
 	};
 };
