@@ -8,12 +8,13 @@ import { configuration } from "./config/configuration";
 import { loggerConfig } from "./config/logger.config";
 import { typeOrmConfig } from "./config/typeorm.config";
 import { validationSchema } from "./config/validation.schema";
+import { UsersModule } from "./users/users.module";
 
 @Module({
 	imports: [
 		ConfigModule.forRoot({
 			isGlobal: true,
-			envFilePath: ".env",
+			envFilePath: ".env.local",
 			load: [configuration],
 			validationSchema,
 		}),
@@ -27,6 +28,7 @@ import { validationSchema } from "./config/validation.schema";
 			inject: [ConfigService],
 			useFactory: loggerConfig,
 		}),
+		UsersModule,
 	],
 	controllers: [AppController],
 	providers: [AppService],

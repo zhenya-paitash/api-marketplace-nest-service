@@ -1,6 +1,6 @@
 {
   "name": "api-marketplace-nest-service",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Marketplace API service",
   "author": "zhenya-paitash",
   "private": false,
@@ -18,7 +18,11 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
+    "migration:generate": "bun run typeorm -- -d ./data-source.ts migration:generate",
+    "migration:run": "bun run typeorm -- -d ./data-source.ts migration:run",
+    "migration:revert": "bun run typeorm -- -d ./data-source.ts migration:revert"
   },
   "dependencies": {
     "@fastify/swagger-ui": "^5.2.3",

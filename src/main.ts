@@ -7,7 +7,7 @@ import { AppModule } from "./app.module";
 import { AppConfig } from "./config/configuration";
 
 async function bootstrap() {
-  // Create a temporary application without a logger to get access to it
+	// Create a temporary application without a logger to get access to it
 	const tempApp = await NestFactory.create(AppModule, { logger: false });
 	const pinoLogger = tempApp.get(Logger);
 	await tempApp.close();
@@ -24,7 +24,7 @@ async function bootstrap() {
 		new DocumentBuilder()
 			.setTitle("Marketplace API")
 			.setDescription("Marketplace API documentation.")
-			.setVersion("0.0.6")
+			.setVersion("0.0.7")
 			.addTag("API")
 			.addBearerAuth()
 			.build(),
