@@ -1,4 +1,6 @@
-import { Column, CreateDateColumn, Entity, Index, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Order } from "src/orders/entities/order.entity";
+import { Service } from "src/services/entities/service.entity";
+import { Column, CreateDateColumn, Entity, Index, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { UserRole } from "../enums/user-role.enum";
 
 @Entity("users")
@@ -33,4 +35,16 @@ export class User {
 
 	@UpdateDateColumn()
 	updatedAt: Date;
+
+	@OneToMany(
+		() => Service,
+		(service) => service.executor,
+	)
+	services: Service[];
+
+	@OneToMany(
+		() => Order,
+		(order) => order.customer,
+	)
+	orders: Order[];
 }
