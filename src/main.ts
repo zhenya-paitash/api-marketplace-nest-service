@@ -27,7 +27,7 @@ async function bootstrap() {
 		new DocumentBuilder()
 			.setTitle("Marketplace API")
 			.setDescription("Marketplace API documentation.")
-			.setVersion("0.0.9")
+			.setVersion("0.1.0")
 			.addTag("API")
 			.addBearerAuth()
 			.build(),

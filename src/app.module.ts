@@ -10,6 +10,8 @@ import { loggerConfig } from "./config/logger.config";
 import { typeOrmConfig } from "./config/typeorm.config";
 import { validationSchema } from "./config/validation.schema";
 import { UsersModule } from "./users/users.module";
+import { ServicesModule } from './services/services.module';
+import { OrdersModule } from './orders/orders.module';
 
 @Module({
 	imports: [
@@ -31,6 +33,8 @@ import { UsersModule } from "./users/users.module";
 		}),
 		UsersModule,
 		AuthModule,
+		ServicesModule,
+		OrdersModule,
 	],
 	controllers: [AppController],
 	providers: [AppService],
