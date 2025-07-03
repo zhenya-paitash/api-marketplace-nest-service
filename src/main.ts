@@ -8,14 +8,9 @@ import { AppModule } from "./app.module";
 import { AppConfig } from "./config/configuration";
 
 async function bootstrap() {
-	// Create a temporary application without a logger to get access to it
-	const tempApp = await NestFactory.create(AppModule, { logger: false });
-	const pinoLogger = tempApp.get(Logger);
-	await tempApp.close();
+	const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(), { bufferLogs: true });
+	app.useLogger(app.get(Logger));
 
-	const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(), { logger: pinoLogger });
-
-	app.useLogger(pinoLogger);
 	app.useGlobalPipes(
 		new ValidationPipe({
 			whitelist: true, // auto remove fields that are not in the dto
@@ -32,7 +27,7 @@ async function bootstrap() {
 		new DocumentBuilder()
 			.setTitle("Marketplace API")
 			.setDescription("Marketplace API documentation.")
-			.setVersion("0.0.8")
+			.setVersion("0.0.9")
 			.addTag("API")
 			.addBearerAuth()
 			.build(),
@@ -41,7 +36,12 @@ async function bootstrap() {
 	SwaggerModule.setup("api/docs", app, document);
 	await app.listen(port, "0.0.0.0");
 
-	console.log(`🚀 Server started on port: ${port} in ${env} mode.`);
-	console.log(`📄 Swagger documentation is available here http://localhost:${port}/api/docs`);
+	const logger = app.get(Logger);
+	logger.log(`🚀 Server started on port: ${port} in ${env} mode.`);
+	logger.log(`📄 Swagger documentation is available here http://localhost:${port}/api/docs`);
 }
-bootstrap();
+
+bootstrap().catch((error) => {
+	console.error("Application bootstrap failed:", error);
+	process.exit(1);
+});

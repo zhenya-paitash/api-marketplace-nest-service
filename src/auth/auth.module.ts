@@ -15,7 +15,7 @@ import { LocalStrategy } from "./strategies/local.strategy";
 		PassportModule,
 		JwtModule.registerAsync({
 			imports: [ConfigModule],
-			inject: [ConfigModule],
+			inject: [ConfigService],
 			useFactory: (configService: ConfigService<AppConfig, true>) => {
 				const jwtConfig = configService.get("jwt", { infer: true });
 				return {

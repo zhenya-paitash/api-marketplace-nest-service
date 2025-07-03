@@ -13,10 +13,9 @@ export const dataSourceOptions: DataSourceOptions = {
   database: process.env.DB_NAME,
   // INFO: Путь к скомпилированным сущностям
   entities: ['dist/**/*.entity.js'],
-  migrations: ['dist/db/migrations/*.js'],
+  migrations: ['dist/src/db/migrations/*.js'],
   synchronize: false,  // WARN: always `false` for migrations
 };
-// console.log(dataSourceOptions);
 
 const dataSource = new DataSource(dataSourceOptions);
 export default dataSource;
