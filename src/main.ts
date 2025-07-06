@@ -1,3 +1,4 @@
+import fastifyMultipart from "@fastify/multipart";
 import { ValidationPipe } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { NestFactory } from "@nestjs/core";
@@ -10,6 +11,7 @@ import { AppConfig } from "./config/configuration";
 async function bootstrap() {
 	const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(), { bufferLogs: true });
 	app.useLogger(app.get(Logger));
+	await app.register(fastifyMultipart);
 
 	app.useGlobalPipes(
 		new ValidationPipe({
@@ -27,7 +29,7 @@ async function bootstrap() {
 		new DocumentBuilder()
 			.setTitle("Marketplace API")
 			.setDescription("Marketplace API documentation.")
-			.setVersion("0.1.0")
+			.setVersion("0.1.1")
 			.addTag("API")
 			.addBearerAuth()
 			.build(),

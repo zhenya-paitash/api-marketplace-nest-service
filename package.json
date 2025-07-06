@@ -1,6 +1,6 @@
 {
   "name": "api-marketplace-nest-service",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Marketplace API service",
   "author": "zhenya-paitash",
   "private": false,
@@ -25,6 +25,7 @@
     "migration:revert": "bun run typeorm -- -d ./data-source.ts migration:revert"
   },
   "dependencies": {
+    "@fastify/multipart": "^9.0.3",
     "@fastify/swagger-ui": "^5.2.3",
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.2",
@@ -59,6 +60,7 @@
     "@types/bcrypt": "^5.0.2",
     "@types/jest": "^29.5.14",
     "@types/joi": "^17.2.3",
+    "@types/multer": "^2.0.0",
     "@types/node": "^22.10.7",
     "@types/passport-jwt": "^4.0.1",
     "@types/passport-local": "^1.0.38",

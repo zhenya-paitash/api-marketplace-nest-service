@@ -19,7 +19,7 @@ export class User {
 	name: string;
 
 	@Column({ type: "varchar", nullable: true })
-	avatartUrl?: string;
+	avatarUrl?: string;
 
 	@Column({ type: "enum", enum: UserRole, default: UserRole.CUSTOMER })
 	role: UserRole;

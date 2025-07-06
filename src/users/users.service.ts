@@ -19,11 +19,30 @@ export class UsersService {
 		return this.usersRepository.findOne({ where: { id } });
 	}
 
-	async findByEmail(email: string): Promise<User | null> {
-		return this.usersRepository.findOne({ where: { email } });
+	async findByEmail(email: string, withPassword = false): Promise<User | null> {
+		const queryBuilder = this.usersRepository.createQueryBuilder('user')
+			.where('user.email = :email', { email });
+
+		if (withPassword) {
+			queryBuilder.addSelect('user.password');
+		}
+
+		return queryBuilder.getOne();
 	}
 
 	async findAll(): Promise<User[] | null> {
 		return this.usersRepository.find();
+	}
+
+	async updateAvatar(userId: string, avatarUrl: string): Promise<boolean> {
+		try {
+			const staticAvatarUrl = `/static/${avatarUrl}`;
+			await this.usersRepository.update(userId, { avatarUrl: staticAvatarUrl });
+		} catch (error) {
+			console.error(error);
+			return false;
+		}
+
+		return true;
 	}
 }

@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post, Request, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { ApiBody, ApiOperation, ApiTags } from "@nestjs/swagger";
+import { ApiBody, ApiOperation, ApiTags, ApiBearerAuth } from "@nestjs/swagger";
 import { User } from "src/users/entities/user.entity";
 import { AuthService } from "./auth.service";
 import { GetUser } from "./decorators/get-user.decorator";
@@ -18,8 +18,8 @@ export class AuthController {
 		return this.authService.register(registerUserDto);
 	}
 
-	@UseGuards(AuthGuard("local"))
 	@Post("login")
+	@UseGuards(AuthGuard("local"))
 	@ApiOperation({ summary: "Login a user" })
 	@ApiBody({ type: LoginUserDto })
 	async login(@Request() req: any) {
@@ -27,9 +27,10 @@ export class AuthController {
 		return this.authService.login(req.user);
 	}
 
-	@UseGuards(AuthGuard("jwt"))
 	@Get("profile")
+	@UseGuards(AuthGuard("jwt"))
 	@ApiOperation({ summary: "Get user profile" })
+	@ApiBearerAuth()
 	getProfile(@GetUser() user: Partial<User>) {
 		// JwtStrategy ran, checked the token and put the payload in req.user
 		return user;
